@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root label="功能导航">
+	<node id="sysman" text="系统管理" isBranch="true" roles="sysman">
+		<node id="userman" text="用户管理" iconCls="icon-ok" isBranch="false"
+			url="/pages/system/user.jsp" roles="userman" />
+	</node>
+	<node id="rkman" text="入库管理" isBranch="true" roles="rkman">
+		<node id="rklist" text="入库管理" iconCls="icon-ok" isBranch="false"
+			url="/pages/ruku/list.jsp" roles="rklist" />
+		<node id="hhlist" text="换货入库管理" iconCls="icon-ok" isBranch="false"
+			url="/pages/huanhuo/list.jsp" roles="hhlist" />
+	</node>
+	<node id="ckman" text="出库管理" isBranch="true" roles="ckman">
+		<node id="cklist" text="出库管理" iconCls="icon-ok" isBranch="false"
+			url="/pages/chuku/list.jsp" roles="cklist" />
+	</node>
+	<node id="kcman" text="库存管理" isBranch="true" roles="kcman">
+		<node id="kclist" text="库存管理" iconCls="icon-ok" isBranch="false"
+			url="/pages/kucun/list.jsp" roles="kclist" />
+	</node>
+	<node id="pcman" text="盘存管理" isBranch="true" roles="pcman">
+		<node id="pclist" text="盘存管理" iconCls="icon-ok" isBranch="false"
+			url="/pages/pancun/list.jsp" roles="pclist" />
+	</node>
+</root>

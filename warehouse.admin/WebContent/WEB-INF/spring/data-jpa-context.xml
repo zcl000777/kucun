@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
+						http://www.springframework.org/schema/data/jpa
+    					http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd
+    					http://www.springframework.org/schema/tx 
+						http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- for jpa -->
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="warehouse.core"/>
+		<property name="dataSource" ref="dataSource"/>
+    	<property name="jpaVendorAdapter">
+	        <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+	            <property name="showSql" value="true" />
+	            <property name="generateDdl" value="false" />
+	             
+	           	    <property name="databasePlatform" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+	           
+	            <!--<property name="databasePlatform" value="org.hibernate.dialect.OracleDialect"/> -->
+	        </bean>
+	    </property>
+	    <property name="persistenceUnitPostProcessors">
+		    <list>
+				<bean class="gaf2.core.jpa.MergingPersistenceUnitPostProcessor">
+				    <property name="defaultPersistenceUnitName" value="warehouse.core"/>
+				    <property name="persistenceUnitNames">
+				        <list>
+				            <value>warehouse.core</value>
+				            <value>GAF2.Core</value>
+				        </list>
+				    </property>
+				</bean>
+	   		</list>
+	    </property>
+	</bean>
+	 
+	<jpa:repositories base-package="gaf2.system.persistence.dao" 
+	    entity-manager-factory-ref="entityManagerFactory"
+	    transaction-manager-ref="transactionManager" repository-impl-postfix="Impl"/>
+	<jpa:repositories base-package="com.warehouse.persistence.dao" 
+	    entity-manager-factory-ref="entityManagerFactory"
+	    transaction-manager-ref="transactionManager"
+	    repository-impl-postfix="Impl"/>   
+ <!-- 为了展示Spring异常而不是hibernate的异常 -->
+	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+<!-- 使注解生效的处理机 可以注入entityManager 自动注入四个类中已经有此类 目的是扫描标签-->
+	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+
+</beans>

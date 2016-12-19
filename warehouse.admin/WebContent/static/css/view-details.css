@@ -1,0 +1,8 @@
+		.view-details a {
+			cursor: pointer;
+		}
+		
+		.view-details pre {
+			overflow: hidden;
+			display: none;
+		}

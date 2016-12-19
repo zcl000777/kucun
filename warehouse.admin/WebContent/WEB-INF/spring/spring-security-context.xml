@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:security="http://www.springframework.org/schema/security"
+	xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/security 
+                        http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<security:http pattern="/static/**" security="none" />
+	<security:http pattern="/index.jsp*" security="none"/>
+	<security:http pattern="/pages/gaf/login.jsp*" security="none"/>
+			
+	<security:http auto-config="true" entry-point-ref="entryPoint" use-expressions="true">
+	    <security:intercept-url pattern="/pages/login**" access="permitAll"/>
+	    <security:intercept-url pattern="/pages/ajax_login**" access="permitAll"/>
+	    <security:intercept-url pattern="/action/verifyImage" access="permitAll"/>
+	    <security:intercept-url pattern="/action/ajax_login" access="permitAll"/>
+	    <security:intercept-url pattern="/action/card/binding" access="permitAll"/>
+	    <security:intercept-url pattern="/action/armypackage/tolist" access="permitAll"/>
+	    <security:intercept-url pattern="/action/armypackage/todetail" access="permitAll"/>
+	    <security:intercept-url pattern="/action/order/addorder" access="permitAll"/>
+	    <security:intercept-url pattern="/pages/web/css/*" access="permitAll"/>
+	    <security:intercept-url pattern="/pages/web/images/*" access="permitAll"/>
+	    <security:intercept-url pattern="/action/**" access="isAuthenticated()"/>
+	    <security:intercept-url pattern="/pages/**" access="isAuthenticated()"/>
+	    
+		<security:port-mappings>
+			<security:port-mapping http="8082" https="443"/>
+		</security:port-mappings>
+		<security:session-management invalid-session-url="/pages/login.jsp">
+	        <security:concurrency-control max-sessions="1"/>
+	    </security:session-management>
+		
+		<security:form-login login-page="/pages/login"
+            username-parameter="username" password-parameter="password"
+            default-target-url="/pages/frame.jsp" 
+            authentication-failure-url="/pages/login" />
+		<security:csrf disabled="true"/>
+	    <security:headers>
+        	<security:frame-options policy="SAMEORIGIN"/>
+		</security:headers>
+		
+	</security:http>
+ 	
+	<!-- 
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider>
+			<security:user-service>
+				<security:user name="SuperAdmin" password="!!!haoshi!@#$%^"
+					authorities="ROLE_ADMIN" />
+			</security:user-service>
+		</security:authentication-provider>
+	</security:authentication-manager>
+	 -->
+	<bean id="preauthAuthProvider"
+		class="org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider">
+		<property name="preAuthenticatedUserDetailsService">
+			<bean id="userDetailsServiceWrapper"
+				class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
+				<property name="userDetailsService" ref="userDetailsService" />
+			</bean>
+		</property>
+	</bean>
+
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider ref="preauthAuthProvider" />
+	</security:authentication-manager>
+	
+	<bean id="userDetailsService" class="gaf2.system.service.impl.UserDetailsServiceImpl">
+	</bean>
+			
+	<bean id="entryPoint"
+		class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint" />
+
+	<bean class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"/>
+
+ 	<security:global-method-security jsr250-annotations="enabled"
+ 		pre-post-annotations="enabled" secured-annotations="enabled"/>
+</beans>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root label="功能导航">
+	<node id="sysman" text="系统管理" isBranch="true">
+		<node id="userman" text="用户管理" iconCls="icon-ok" isBranch="false" />
+		<node id="user" text="用户" iconCls="icon-ok" isBranch="false"/>
+		<node id="view" text="观察员" iconCls="icon-ok" isBranch="false"/>
+		<!-- <node id="roleman" text="权限管理" iconCls="icon-ok" isBranch="false"/> -->
+		<!-- <node id="dictman" text="字典管理" iconCls="icon-ok" isBranch="false" /> -->
+	</node>
+	<node id="rkman" text="入库管理" isBranch="true">
+		<node id="rklist" text="入库管理" iconCls="icon-ok" isBranch="false"/>
+		<node id="hhlist" text="换货入库管理" iconCls="icon-ok" isBranch="false"/>
+	</node>
+	<node id="ckman" text="出库管理" isBranch="true">
+		<node id="cklist" text="出库管理" iconCls="icon-ok" isBranch="false"/>
+	</node>
+	<node id="kcman" text="库存管理" isBranch="true">
+		<node id="kclist" text="库存管理" iconCls="icon-ok" isBranch="false"/>
+	</node>
+	<node id="pcman" text="盘存管理" isBranch="true">
+		<node id="pclist" text="盘存管理" iconCls="icon-ok" isBranch="false"/>
+	</node>
+	
+</root>
